@@ -1,0 +1,1 @@
+# docker-laravel10x-msql-phpmyadmin
