@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: MySql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin1234
+    volumes:
+      - $HOME/Proyectos/Db_dev/db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: PhpMyAdmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 3010:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  laravel:
+    image: laravel:10x
+    stdin_open: true
+    tty: true
+    container_name: Laravel
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 80:80
+    volumes:
+      - $HOME/Proyectos/:/home/docker/desarrollo/
